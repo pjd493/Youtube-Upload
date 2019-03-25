@@ -8,7 +8,8 @@ public class File
 {
     public string title;
     public string description;
-    public string tag;
+    public string tag1;
+    public string tag2;
     public string Id;
     public string privacy;
     public string filepath;
@@ -22,11 +23,12 @@ public class File
     {
 
     }
-    public File(string title, string description, string tag, string Id, string privacy, string filepath)
+    public File(string title, string description, string tag1, string tag2, string Id, string privacy, string filepath)
     {
         this.title = title;
         this.description = description;
-        this.tag = tag;
+        this.tag1 = tag1;
+        this.tag2 = tag2;
         this.Id = Id;
         this.privacy = privacy;
         this.filepath = filepath;

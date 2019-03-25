@@ -10,9 +10,9 @@ using Google.Apis.Upload;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
+using System.Windows.Forms;
 
-namespace Google.Apis.YouTube.Samples
-{
+
   /// <summary>
   /// YouTube Data API v3 sample: upload a video.
   /// Relies on the Google APIs Client Library for .NET, v1.7.0 or higher.
@@ -20,8 +20,33 @@ namespace Google.Apis.YouTube.Samples
   /// </summary>
   internal class UploadVideo
     {
-        
-        File myvideo = new File("Hello", "Hiii", "This", "Is", "Test", "last");
+
+
+
+
+    public File myvideo;
+
+    public UploadVideo(File obj)
+    {
+        myvideo = obj;
+
+        try
+        {
+            this.Run().Wait();
+        }
+        catch (AggregateException ex)
+        {
+            foreach (var e in ex.InnerExceptions)
+            {
+                MessageBox.Show("Error: " + e.Message);
+            }
+        }
+
+
+    }
+
+
+
 
     private async Task Run()
     {
@@ -48,7 +73,7 @@ namespace Google.Apis.YouTube.Samples
       video.Snippet = new VideoSnippet();
       video.Snippet.Title = myvideo.title;
       video.Snippet.Description = myvideo.description;
-      video.Snippet.Tags = new string[] { myvideo.tag, myvideo.tag };
+      video.Snippet.Tags = new string[] { myvideo.tag1, myvideo.tag2 };
       video.Snippet.CategoryId = myvideo.Id; // See https://developers.google.com/youtube/v3/docs/videoCategories/list
       video.Status = new VideoStatus();
       video.Status.PrivacyStatus = myvideo.privacy; // or "private" or "public"
@@ -69,18 +94,18 @@ namespace Google.Apis.YouTube.Samples
       switch (progress.Status)
       {
         case UploadStatus.Uploading:
-          Console.WriteLine("{0} bytes sent.", progress.BytesSent);
+          MessageBox.Show("{0} bytes sent.", Convert.ToString(progress.BytesSent));
           break;
 
         case UploadStatus.Failed:
-          Console.WriteLine("An error prevented the upload from completing.\n{0}", progress.Exception);
+          MessageBox.Show("An error prevented the upload from completing.\n{0}", Convert.ToString(progress.Exception));
           break;
       }
     }
 
     void videosInsertRequest_ResponseReceived(Video video)
     {
-      Console.WriteLine("Video id '{0}' was successfully uploaded.", video.Id);
+      MessageBox.Show("Video id '{0}' was successfully uploaded.", video.Id);
+      Application.Exit();
     }
   }
-}
